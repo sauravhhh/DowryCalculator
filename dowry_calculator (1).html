@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dowry Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            min-height: 100vh;
+            color: #374151;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #1f2937;
+        }
+        
+        @media (min-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        .educational-note {
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .educational-note h3 {
+            color: #0369a1;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .educational-note p {
+            color: #0c4a6e;
+            margin-bottom: 10px;
+        }
+        
+        .form-container {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        @media (min-width: 768px) {
+            .form-container {
+                padding: 40px;
+            }
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #374151;
+            font-size: 14px;
+        }
+        
+        @media (min-width: 768px) {
+            label {
+                font-size: 16px;
+            }
+        }
+        
+        input, select {
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .submit-btn {
+                font-size: 18px;
+            }
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .results {
+            display: none;
+        }
+        
+        .criminal-alert {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        @media (min-width: 768px) {
+            .criminal-alert {
+                padding: 30px;
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        .criminal-alert h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        @media (min-width: 768px) {
+            .criminal-alert h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        .criminal-alert p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        @media (min-width: 768px) {
+            .criminal-alert p {
+                font-size: 1.1rem;
+            }
+        }
+        
+        .law-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        @media (min-width: 768px) {
+            .law-section {
+                padding: 30px;
+            }
+        }
+        
+        .law-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .law-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #dc2626;
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            .law-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        .law-content {
+            color: #374151;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+        
+        @media (min-width: 768px) {
+            .law-content {
+                font-size: 15px;
+            }
+        }
+        
+        .law-content h4 {
+            color: #1f2937;
+            font-weight: 600;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .penalty-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #f59e0b;
+        }
+        
+        @media (min-width: 768px) {
+            .penalty-box {
+                padding: 20px;
+            }
+        }
+        
+        .penalty-box h4 {
+            color: #92400e;
+            margin-bottom: 10px;
+        }
+        
+        .penalty-box p {
+            color: #78350f;
+            font-weight: 500;
+        }
+        
+        .contact-section {
+            background: linear-gradient(135deg, #dcfdf4 0%, #a7f3d0 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            .contact-section {
+                padding: 25px;
+            }
+        }
+        
+        .contact-section h3 {
+            color: #065f46;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .contact-section h3 {
+                font-size: 1.2rem;
+            }
+        }
+        
+        .contact-section p {
+            color: #047857;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        @media (min-width: 768px) {
+            .contact-section p {
+                font-size: 16px;
+            }
+        }
+        
+        .helpline {
+            background: #059669;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 5px;
+            font-size: 12px;
+        }
+        
+        @media (min-width: 768px) {
+            .helpline {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+        
+        .disclaimer {
+            background: #fef2f2;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 30px;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.1);
+        }
+        
+        .disclaimer h4 {
+            font-weight: bold;
+            color: #dc2626;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .disclaimer h4 {
+                font-size: 1.1rem;
+            }
+        }
+        
+        .disclaimer p {
+            color: #7f1d1d;
+            font-size: 13px;
+        }
+        
+        @media (min-width: 768px) {
+            .disclaimer p {
+                font-size: 14px;
+            }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+        
+        .footer .heart {
+            color: #ef4444;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Dowry Calculator</h1>
+        </div>
+
+        <!-- Educational Note -->
+        <div class="educational-note">
+            <h3>What is Dowry?</h3>
+            <p>Dowry is the practice of giving money, goods, or property by the bride's family to the groom's family at the time of marriage. This tradition has been practiced in various forms across different cultures for centuries.</p>
+            <p>In Indian society, dowry traditionally included jewelry, household items, cash, and other valuables given to help establish the new household and show respect to the groom's family.</p>
+            <p>The practice varies significantly across regions, communities, and socio-economic backgrounds, with different customs and expectations in different parts of the country.</p>
+        </div>
+
+        <!-- Form -->
+        <div class="form-container">
+            <h2 style="text-align: center; margin-bottom: 30px; font-size: 1.5rem;">Calculate Dowry You'll Get</h2>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="age">Groom's Age</label>
+                    <input type="number" id="age" min="21" max="45" placeholder="Enter age (21-45)" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="income">Family Income (₹)</label>
+                    <input type="number" id="income" min="0" max="1000000" placeholder="Enter monthly family income" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="education">Education Level</label>
+                    <select id="education" required>
+                        <option value="">Select education level</option>
+                        <option value="Graduate">Graduate</option>
+                        <option value="Post Graduate">Post Graduate</option>
+                        <option value="Professional">Professional Degree</option>
+                        <option value="PhD">PhD/Doctorate</option>
+                        <option value="Diploma">Diploma</option>
+                        <option value="12th">12th Pass</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cityTier">Location</label>
+                    <select id="cityTier" required>
+                        <option value="">Select location</option>
+                        <option value="Tier1">Metro Cities (Mumbai, Delhi, Bangalore etc.)</option>
+                        <option value="Tier2">Major Cities (Pune, Ahmedabad, Hyderabad etc.)</option>
+                        <option value="Tier3">Towns and Villages</option>
+                    </select>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="family_status">Family Social Status</label>
+                    <select id="family_status" required>
+                        <option value="">Select family status</option>
+                        <option value="High">High Profile Family</option>
+                        <option value="Upper Middle">Upper Middle Class</option>
+                        <option value="Middle">Middle Class</option>
+                        <option value="Lower Middle">Lower Middle Class</option>
+                        <option value="Working">Working Class</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button type="button" class="submit-btn" onclick="calculateDowry()">
+                Calculate Expected Dowry
+            </button>
+        </div>
+
+        <!-- Results -->
+        <div id="results" class="results">
+            <!-- Criminal Alert -->
+            <div class="criminal-alert">
+                <h2>⚠️ STOP! DOWRY IS A CRIMINAL OFFENSE ⚠️</h2>
+                <p>What you just calculated is ILLEGAL under Indian law. Demanding, giving, or taking dowry is a punishable offense that can lead to imprisonment and heavy fines.</p>
+            </div>
+
+            <!-- Bharatiya Nyaya Sanhita Section -->
+            <div class="law-section">
+                <div class="law-title">Bharatiya Nyaya Sanhita (BNS) 2023 - Dowry Laws</div>
+                <div class="law-content">
+                    <h4>Section 84 - Dowry Death:</h4>
+                    <p>If a woman dies within 7 years of marriage due to dowry harassment, it's considered dowry death.</p>
+                    
+                    <div class="penalty-box">
+                        <h4>Punishment:</h4>
+                        <p><strong>Minimum 7 years imprisonment, extending to life imprisonment + Fine</strong></p>
+                    </div>
+                    
+                    <h4>Section 85 - Cruelty by Husband or Relatives:</h4>
+                    <p>Physical or mental cruelty for dowry demands is a punishable offense.</p>
+                    
+                    <div class="penalty-box">
+                        <h4>Punishment:</h4>
+                        <p><strong>Up to 3 years imprisonment + Fine</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dowry Prohibition Act -->
+            <div class="law-section">
+                <div class="law-title">Dowry Prohibition Act, 1961</div>
+                <div class="law-content">
+                    <h4>Section 3 - Penalty for Giving or Taking Dowry:</h4>
+                    <p>Both giving and receiving dowry is illegal and punishable.</p>
+                    
+                    <div class="penalty-box">
+                        <h4>Punishment:</h4>
+                        <p><strong>Minimum 5 years imprisonment + Fine of ₹15,000 or dowry amount (whichever is higher)</strong></p>
+                    </div>
+                    
+                    <h4>Section 4 - Penalty for Demanding Dowry:</h4>
+                    <p>Even demanding dowry directly or indirectly is a criminal offense.</p>
+                    
+                    <div class="penalty-box">
+                        <h4>Punishment:</h4>
+                        <p><strong>Minimum 6 months to 2 years imprisonment + Fine up to ₹10,000</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Laws -->
+            <div class="law-section">
+                <div class="law-title">Other Relevant Laws</div>
+                <div class="law-content">
+                    <h4>Indian Evidence Act - Section 113B:</h4>
+                    <p>Presumption of dowry death if a woman dies within 7 years of marriage under abnormal circumstances.</p>
+                    
+                    <h4>Code of Criminal Procedure - Section 174:</h4>
+                    <p>Mandatory police investigation in cases of unnatural death of women within 7 years of marriage.</p>
+                    
+                    <h4>Protection of Women from Domestic Violence Act, 2005:</h4>
+                    <p>Provides civil remedies for dowry-related harassment and domestic violence.</p>
+                </div>
+            </div>
+
+            <!-- Help Section -->
+            <div class="contact-section">
+                <h3>Need Help? Contact These Helplines</h3>
+                <p>If you or someone you know is facing dowry harassment:</p>
+                <div class="helpline">Women Helpline: 1091</div>
+                <div class="helpline">NCW: 011-26944880</div>
+                <div class="helpline">Police Emergency: 100</div>
+                <p style="margin-top: 15px;"><strong>Remember: You are not alone. Help is available.</strong></p>
+            </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <h4>Educational Disclaimer</h4>
+            <p>This calculator is created purely for educational purposes to raise awareness about the criminal nature of dowry practices. We strongly condemn dowry in any form and encourage reporting such practices to authorities.</p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            Made with <span class="heart">❤️</span> by Sauravhhh
+        </div>
+    </div>
+
+    <script>
+        function calculateDowry() {
+            // Get form values
+            const age = parseInt(document.getElementById('age').value);
+            const income = parseInt(document.getElementById('income').value);
+            const education = document.getElementById('education').value;
+            const cityTier = document.getElementById('cityTier').value;
+            const familyStatus = document.getElementById('family_status').value;
+
+            // Validate inputs
+            if (!age || !income || !education || !cityTier || !familyStatus) {
+                alert('Please fill in all fields completely.');
+                return;
+            }
+
+            // Show results immediately without calculations
+            // The point is to show the criminal alert, not actual dowry amounts
+            const resultsSection = document.getElementById('results');
+            resultsSection.style.display = 'block';
+            
+            setTimeout(() => {
+                resultsSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 300);
+        }
+
+        // Add enter key support
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculateDowry();
+            }
+        });
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const lawSections = document.querySelectorAll('.law-section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+            
+            lawSections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'all 0.6s ease';
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
